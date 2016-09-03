@@ -1,13 +1,44 @@
-{% if latest_items_list %}
+
+{# Load the tag library #}
+{% load bootstrap3 %}
+{% block bootstrap3_content %}
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'shop/style.css' %}" />
+<div class="container">
+{% if items %}
     <ul>
-    {% for item in latest_items_list %}
+    {% for item in items %}
         <li>
-        	<a href="/shop/{{ item.id }}/">{{ item.name }}</a>
-        	<img src="{% if item.image %} {{ item.image.url}} {% else %} {% static 'img/no_image.png' %} {% endif %}" >
+        	<a href="/shop/{{ item.id }}/">{{ item.name }}
+	        	<img src="{% if item.image %} {{ item.image.url}} {% else %} {% static 'img/no_image.png' %} {% endif %}" >
+	        	<h4>{{ item.price }} {{ item.currency }}</h4>
+        	</a>
         </li>
     {% endfor %}
     </ul>
+
+    <div class="pagination">
+	    <span class="step-links">
+	        {% if items.has_previous %}
+	            <a href="?page={{ items.previous_page_number }}">previous</a>
+	        {% endif %}
+
+	        <span class="current">
+	            Page {{ items.number }} of {{ items.paginator.num_pages }}.
+	        </span>
+
+	        {% if items.has_next %}
+	            <a href="?page={{ items.next_page_number }}">next</a>
+	        {% endif %}
+	    </span>
+	</div>
 {% else %}
     <p>No Items are available.</p>
 {% endif %}
+</div>
+{% endblock %}
+
+
