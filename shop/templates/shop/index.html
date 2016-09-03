@@ -1,0 +1,13 @@
+{% if latest_items_list %}
+{% load static %}
+    <ul>
+    {% for item in latest_items_list %}
+        <li>
+        	<a href="/shop/{{ item.id }}/">{{ item.name }}</a>
+        	<img src="{% if item.image %} {{ item.image.url}} {% else %} {% static 'img/no_image.png' %} {% endif %}" >
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Items are available.</p>
+{% endif %}

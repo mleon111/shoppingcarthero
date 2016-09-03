@@ -1,8 +1,14 @@
 from django.http import HttpResponse
+from django.shortcuts import render
+from .models import Item
 
 
 def index(request):
-    return HttpResponse("Hello, world. You are in the index view!")
+	latest_items_list = Item.objects.order_by('-pub_date')[:5]
+	context = {
+		'latest_items_list': latest_items_list,
+	}
+	return render(request, 'shop/index.html', context)
 
 def cart(request):
 	return HttpResponse("Hello from the cart view!")
