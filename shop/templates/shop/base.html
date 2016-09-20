@@ -1,0 +1,24 @@
+
+{# Load the tag library #}
+{% load bootstrap3 %}
+{% block bootstrap3_content %}
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'shop/style.css' %}" />
+	<div class="container">
+		<div id="header" class="row">
+		</div>
+
+		<div id="main" class="row">
+			{% block content %}
+	    	{% endblock %}
+		</div>
+
+		<div id="footer" class="row">
+		</div>
+	</div>
+{% endblock %}
+
+

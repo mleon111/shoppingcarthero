@@ -1,8 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.utils import timezone
 from django.conf import settings
 from PIL import Image
 from io import StringIO
+
+class ShopProfile(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	app_currency = models.IntegerField(default=0)
+	
+# Auto create profile on register
+User.profile = property(lambda u: ShopProfile.objects.get_or_create(user=u)[0])
 
 class Item(models.Model):
 	DOLLAR = 'USD'
@@ -11,7 +19,6 @@ class Item(models.Model):
 		(DOLLAR, 'USD'),
 		(SHOPCOIN, 'SHP'),
 	)
-
 	name = models.CharField(default='', max_length=200)
 	description = models.TextField(default='')
 	image = models.ImageField(default='items/no_image.png', upload_to='items/', blank=True)
@@ -23,9 +30,9 @@ class Item(models.Model):
 		choices=CURRENCY_CHOICES,
 		default=DOLLAR,
 	)
-
 	def __str__(self):
 		return self.name
-
 	def is_usd(self):
 		return self.currency in (self.DOLLAR)
+
+
