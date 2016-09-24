@@ -1,13 +1,20 @@
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404, render
-from .models import Item
+from .models import Category, Item
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
+from cart.forms import CartAddItemForm
 
 
-def index(request):
-	latest_items_list = Item.objects.order_by('-pub_date')[:5]
-	paginator = Paginator(latest_items_list, 4)
+def item_list(request, category_slug=None):
+	category = None
+	categories = Category.objects.all()
+	items = Item.objects.filter(available=True)
+	if category_slug:
+		category = get_object_or_404(Category, slug=category_slug)
+		items = items.filter(category=category)
+	paginator = Paginator(items, 4)
 	page = request.GET.get('page')
 	try:
 		items = paginator.page(page)
@@ -17,19 +24,27 @@ def index(request):
 	except EmptyPage:
 		# If page is out of range (e.g. 9999), deliver last page of results.
 		items = paginator.page(paginator.num_pages)
-	return render(request, 'shop/index.html', {'items': items})
+	return render(request, 
+				  'shop/item_list.html', 
+				  {'category': category,
+				   'categories': categories,
+				   'items': items})
 
 @login_required
 def profile(request):
 	profile = request.user.profile
 	return render(request, 'shop/profile.html', {'profile': profile})
 
-@login_required
-def cart(request):
-	return HttpResponse("Hello from the cart view!")
+def item_detail(request, id, slug):
+    item = get_object_or_404(Item, 
+    						 id=id,
+    						 slug=slug,
+    						 available=True)
+    cart_item_form = CartAddItemForm()
+    return render(request, 
+    			  'shop/item.html', 
+    			  {'item': item,
+    			  'cart_item_form': cart_item_form})
 
-def item(request, item_id):
-    item = get_object_or_404(Item, pk=item_id)
-    return render(request, 'shop/item.html', {'item': item})
 
 

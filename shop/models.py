@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from PIL import Image
 from io import StringIO
 
@@ -12,27 +13,42 @@ class ShopProfile(models.Model):
 # Auto create profile on register
 User.profile = property(lambda u: ShopProfile.objects.get_or_create(user=u)[0])
 
-class Item(models.Model):
-	DOLLAR = 'USD'
-	SHOPCOIN = 'SHP'
-	CURRENCY_CHOICES = (
-		(DOLLAR, 'USD'),
-		(SHOPCOIN, 'SHP'),
-	)
-	name = models.CharField(default='', max_length=200)
-	description = models.TextField(default='')
-	image = models.ImageField(default='items/no_image.png', upload_to='items/', blank=True)
-	price = models.IntegerField(default=0)
-	quantity = models.IntegerField(default=0)
-	pub_date = models.DateTimeField(default=timezone.now)
-	currency = models.CharField(
-		max_length=3,
-		choices=CURRENCY_CHOICES,
-		default=DOLLAR,
-	)
+class Category(models.Model):
+	name = models.CharField(max_length=200, db_index=True)
+	slug = models.SlugField(max_length=200, db_index=True, unique=True)
+
+	class Meta:
+		ordering = ('name',)
+		verbose_name = 'category'
+		verbose_name_plural = 'categories'
+
 	def __str__(self):
 		return self.name
-	def is_usd(self):
-		return self.currency in (self.DOLLAR)
+
+	def get_absolute_url(self):
+		return reverse('shop:item_list_by_category', args=[self.slug])
+
+class Item(models.Model):
+	category = models.ForeignKey(Category, default=-1, related_name='products')
+	name = models.CharField(default='', max_length=200, db_index=True)
+	slug = models.SlugField(max_length=200, db_index=True)
+	image = models.ImageField(upload_to='items/%Y/%m/%d', blank=True)
+	description = models.TextField(default='', blank=True)
+	short = models.TextField(default='', blank=True)
+	price = models.DecimalField(max_digits=10, decimal_places=2)
+	stock = models.PositiveIntegerField()
+	available = models.BooleanField(default=True)
+	created = models.DateTimeField(auto_now_add=True)
+	updated = models.DateTimeField(auto_now=True)
+
+	class Meta:
+		ordering = ('name',)
+		index_together = (('id', 'slug'),)
+
+	def __str__(self):
+		return self.name
+
+	def get_absolute_url(self):
+		return reverse('shop:item_detail', args=[self.id, self.slug])
 
 
