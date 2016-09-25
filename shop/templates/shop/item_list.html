@@ -33,7 +33,7 @@
 				<a href="{{ item.get_absolute_url }}" class="center-block">{{ item.name }}</a><br>
 				${{ item.price }}
 				<p>
-				{{ item.short }}
+				{{ item.short|linebreaks }}
 				</p>
 			</li>
 			{% endfor %}

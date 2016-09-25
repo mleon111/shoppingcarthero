@@ -2,6 +2,18 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'VT323', monospace;
 }
 
+.order-info {
+  float: right;
+  width: 50%;
+  border: solid 1px black;
+  padding-left: 50px;
+}
+
+
+.order-form {
+  float: left;
+  width: 40%;
+}
 
 .pagination {
     width: 100%;
@@ -11,8 +23,13 @@ h1, h2, h3, h4, h5, h6 {
 
 #header {
     height: 85px;
-    width: 100%;
+    padding-left: 50px;
+    padding-right: 50px;
     background-color: #000000;
+}
+
+#account {
+  padding-top: 25px;
 }
 
 #header a {
@@ -30,7 +47,6 @@ a:hover {
 }
 
 #logo {
-  padding-left: 50px;
   color: white;
 }
 

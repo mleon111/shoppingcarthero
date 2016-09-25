@@ -6,13 +6,6 @@ from django.core.urlresolvers import reverse
 from PIL import Image
 from io import StringIO
 
-class ShopProfile(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	app_currency = models.IntegerField(default=0)
-	
-# Auto create profile on register
-User.profile = property(lambda u: ShopProfile.objects.get_or_create(user=u)[0])
-
 class Category(models.Model):
 	name = models.CharField(max_length=200, db_index=True)
 	slug = models.SlugField(max_length=200, db_index=True, unique=True)

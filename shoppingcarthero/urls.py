@@ -7,8 +7,9 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^cart/', include('cart.urls', namespace='cart')),
+    url(r'^orders/', include('orders.urls', namespace='orders')),
+    url(r'^account/', include('account.urls')),
     url(r'^', include('shop.urls', namespace='shop')),
-    url(r'^accounts/login/$', auth_views.login, {'template_name': 'shop/login.html'}, name='login'),
 ]
 
 if settings.DEBUG is True:

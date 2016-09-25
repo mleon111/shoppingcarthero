@@ -30,11 +30,6 @@ def item_list(request, category_slug=None):
 				   'categories': categories,
 				   'items': items})
 
-@login_required
-def profile(request):
-	profile = request.user.profile
-	return render(request, 'shop/profile.html', {'profile': profile})
-
 def item_detail(request, id, slug):
     item = get_object_or_404(Item, 
     						 id=id,
