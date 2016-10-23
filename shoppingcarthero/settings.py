@@ -32,17 +32,17 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'bootstrap3',
+    'shop.apps.ShopConfig',
+    'cart.apps.CartConfig',
+    'orders.apps.OrdersConfig',
+    'account.apps.AccountConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bootstrap3',
-    'shop.apps.ShopConfig',
-    'cart.apps.CartConfig',
-    'orders.apps.OrdersConfig',
-    'account.apps.AccountConfig',
 ]
 
 MIDDLEWARE = [
@@ -146,3 +146,15 @@ CART_SESSION_ID = 'cart'
 LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
 LOGIN_URL = reverse_lazy('login')
 LOGOUT_URL = reverse_lazy('logout')
+
+# Email 
+# https://docs.djangoproject.com/en/1.10/topics/email/
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+
+
+
+
+
+

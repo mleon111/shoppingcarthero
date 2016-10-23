@@ -26,14 +26,20 @@ h1, h2, h3, h4, h5, h6 {
     padding-left: 50px;
     padding-right: 50px;
     background-color: #000000;
+    color: #ffffff;
 }
 
 #account {
   padding-top: 25px;
+  text-align: right;
 }
 
 #header a {
   color: #ffffff;
+}
+
+#header a.highlight {
+  color: #00ccff;
 }
 
 #header a:hover {
@@ -124,4 +130,18 @@ a:hover {
 
 #cart_table {
   font-size: 1em;
+}
+
+#messages {
+  background: #72d9ff;
+  border: 3px solid #000000;
+  padding-top: 10px;
+  font-family: 'VT323', monospace;
+  color: white;
+  font-size: 1.6em;
+  text-align: center;
+}
+
+#messages ul {
+  list-style-type: none;
 }
