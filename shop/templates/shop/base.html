@@ -25,9 +25,6 @@
 			      <li {% if section == "dashboard" %}class="selected"{% endif %}>
 			        <a href="{% url "dashboard" %}">Dashboard</a>
 			      </li>
-			      <li {% if section == "inventory" %}class="selected"{% endif %}>
-			        <a href="#">Inventory</a>
-			      </li>
 			    </ul>
 		  	{% endif %}
 		  	{% if request.user.is_authenticated %}

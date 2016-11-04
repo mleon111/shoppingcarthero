@@ -6,6 +6,8 @@ class Profile(models.Model):
     date_of_birth = models.DateField(blank=True, null=True)
     photo = models.ImageField(upload_to='users/%Y/%m/%d', 
                               blank=True)
+    level = models.IntegerField()
+    date_coupon_used = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return 'Profile for user {}'.format(self.user.username)

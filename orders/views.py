@@ -16,6 +16,7 @@ def order_create(request):
                                         quantity=item['quantity'])  
             # clear the cart
             cart.clear()
+            # TO DO: Reward User for completing order
             return render(request,
                           'orders/order/created.html',
                           {'order': order})

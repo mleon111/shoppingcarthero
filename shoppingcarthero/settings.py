@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'bootstrap3',
     'shop.apps.ShopConfig',
+    'coupons.apps.CouponsConfig',
     'cart.apps.CartConfig',
     'orders.apps.OrdersConfig',
     'account.apps.AccountConfig',
@@ -64,6 +65,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.request',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -128,7 +130,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-
 ENV_PATH = os.path.abspath(os.path.dirname(__file__))
 STATIC_ROOT = os.path.join(ENV_PATH, "static")
 STATIC_URL = '/static/'
@@ -137,12 +138,10 @@ MEDIA_URL = "/media/"
 
 # Shopping Cart Session
 # https://docs.djangoproject.com/en/1.8/ref/settings/#sessions.
-
 CART_SESSION_ID = 'cart'
 
 # Url utilities
 # https://docs.djangoproject.com/en/1.10/ref/urlresolvers/
-
 LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
 LOGIN_URL = reverse_lazy('login')
 LOGOUT_URL = reverse_lazy('logout')
@@ -151,7 +150,12 @@ LOGOUT_URL = reverse_lazy('logout')
 # https://docs.djangoproject.com/en/1.10/topics/email/
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-
+# Custom Auth Backends
+# https://docs.djangoproject.com/en/1.10/topics/auth/customizing/
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'account.authentication.EmailAuthBackend',
+)
 
 
 

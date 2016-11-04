@@ -3,6 +3,8 @@ from django.views.decorators.http import require_POST
 from shop.models import Item
 from .cart import Cart
 from .forms import CartAddItemForm
+from coupons.forms import CouponApplyForm
+from django.contrib.auth.decorators import login_required
 
 @require_POST
 def cart_add(request, item_id):
@@ -22,9 +24,13 @@ def cart_remove(request, item_id):
     cart.remove(item)
     return redirect('cart:cart_detail')
 
+@login_required
 def cart_detail(request):
     cart = Cart(request)
     for item in cart:
     	item['update_quantity_form'] = CartAddItemForm(
     		initial={'quantity': item['quantity'], 'update': True})
-    return render(request, 'cart/cart.html', {'cart': cart})
+    coupon_apply_form = CouponApplyForm(request.POST, user=request.user)
+    return render(request,
+              'cart/cart.html',
+              {'cart': cart,'coupon_apply_form': coupon_apply_form})
