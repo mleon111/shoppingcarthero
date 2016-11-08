@@ -52,9 +52,10 @@ def user_login(request):
 
 @login_required
 def dashboard(request):
+    profile_evel = request.user.profile.level
     return render(request,
                   'account/dashboard.html',
-                  {'section': 'dashboard'})
+                  {'section': 'dashboard', 'level': profile_evel})
 
 @login_required
 def edit(request):
