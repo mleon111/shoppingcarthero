@@ -5,8 +5,13 @@ from .models import Category, Item
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from cart.forms import CartAddItemForm
+from django.template import loader
 
-
+def error404(request):
+     template = loader.get_template('404.html')
+     #context = Context({'message': 'All: %s' % request,})
+     return HttpResponse(content=template.render(), content_type='text/html; charset=utf-8', status=404)
+	 
 def item_list(request, category_slug=None):
 	category = None
 	categories = Category.objects.all()

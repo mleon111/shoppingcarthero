@@ -1,6 +1,9 @@
 from django.conf.urls import url
 
 from . import views
+handler404 = views.error404
+handler500 = views.error404
+handler301 = views.error404
 
 app_name = 'shop'
 urlpatterns = [
